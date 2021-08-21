@@ -20,31 +20,31 @@
                 <img src="img/fieldRed.png" alt="field">
             </div>
             <div>
-                <div class="to_form">
-                <form>
-                    <p>
+                <div class="to-form">
+                <form id="input-data" method="get">
+                    <p id="x-input">
                         Координата точки X: <br>
-                        <label><input type="text"></label>
+                        <label><input type="text" name="x"></label>
                     </p>
-                    <p>
+                    <p id="y-input">
                         Координата точки Y: <br>
-                        <label><input type="button" value="-2"></label>
-                        <label><input type="button" value="-1.5"></label>
-                        <label><input type="button" value="-1"></label>
-                        <label><input type="button" value="-0.5"></label>
-                        <label><input type="button" value="0"></label>
-                        <label><input type="button" value="0.5"></label>
-                        <label><input type="button" value="1"></label>
-                        <label><input type="button" value="1.5"></label>
-                        <label><input type="button" value="2"></label>
+                        <label><input type="button" name="y" value="-2"></label>
+                        <label><input type="button" name="y" value="-1.5"></label>
+                        <label><input type="button" name="y" value="-1"></label>
+                        <label><input type="button" name="y" value="-0.5"></label>
+                        <label><input type="button" name="y" value="0"></label>
+                        <label><input type="button" name="y" value="0.5"></label>
+                        <label><input type="button" name="y" value="1"></label>
+                        <label><input type="button" name="y" value="1.5"></label>
+                        <label><input type="button" name="y" value="2"></label>
                     </p>
-                    <p>
+                    <p id="r-input">
                         Радиус области R: <br>
-                        <label><input type="checkbox"> 1 </label> <br>
-                        <label><input type="checkbox"> 2 </label> <br>
-                        <label><input type="checkbox"> 3 </label> <br>
-                        <label><input type="checkbox"> 4 </label> <br>
-                        <label><input type="checkbox"> 5 </label>
+                        <label><input type="checkbox" name="r" value="1"> 1 </label> <br>
+                        <label><input type="checkbox" name="r" value="2"> 2 </label> <br>
+                        <label><input type="checkbox" name="r" value="3"> 3 </label> <br>
+                        <label><input type="checkbox" name="r" value="4"> 4 </label> <br>
+                        <label><input type="checkbox" name="r" value="5"> 5 </label>
                     </p>
                     <p><input type="submit" value="Отправить" id="submit"></p>
                 </form>
@@ -87,6 +87,7 @@
         </table>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
-    <script src="js/validate.js"></script>
+    <script src="js/runtimeHandler.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
