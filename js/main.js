@@ -44,18 +44,29 @@ $(document).ready(function() {
     }
 
     function validateForm() {
-        const verifiedX = validateX();
-        const verifiedY = validateY();
-        const verifiedR = validateR();
-        return {isValid: verifiedX.isValid & verifiedY.isValid & verifiedR.isValid,
-            value: verifiedX.value + "&" + verifiedY.value + "&" + verifiedR.value}
+        const validatedX = validateX();
+        const validatedY = validateY();
+        const validatedR = validateR();
+        return {isValid: validatedX.isValid & validatedY.isValid & validatedR.isValid,
+            value: validatedX.value + "&" + validatedY.value + "&" + validatedR.value}
     }
 
-    $("#input-data").on("submit", function(event) {
+    $('#input-data').on("submit", function(event) {
         event.preventDefault();
-        const verifiedForm = validateForm();
-        if (verifiedForm.isValid) {
-            alert(verifiedForm.value);
-        }
+        const validatedForm = validateForm();
+        if (!validatedForm.isValid) return;
+        $.ajax({
+            url: 'php/main.php',
+            method: 'GET',
+            data: validatedForm.data + '&timezone=' + new Date().getTimezoneOffset(),
+            dataType: 'json',
+            beforeSend: function() {
+                $('#submit').attr('disabled', 'disabled');
+            },
+            success: function(data) {
+                $('#submit').attr('disabled', false);
+                alert(data);
+            }
+        })
     })
 })
