@@ -1,5 +1,7 @@
 <?php
 
+namespace Lab1;
+
 function checkX($x) {
     $X_MIN = -3;
     $X_MAX = -5;
@@ -17,10 +19,25 @@ function checkForm($x, $y, $r) {
     return checkX($x) & checkY($y) & checkR($r);
 }
 
+function checkHit($x, $y, $z) {
+    return true;
+}
+
 @session_start();
 $x = (float) $_GET['x'];
 $y = (float) $_GET['y'];
 $r = (float) $_GET['r'];
-$isValid = checkForm($x, $y, $r) ? "true" : "false";
+$isValid = checkForm($x, $y, $r);
+$isHit = $isValid && checkHit($x, $y, $x);
+
+$result = array(
+    'x' => $x,
+    'y' => $y,
+    'r' => $r,
+    'isValid' => $isValid,
+    'isHit' => $isHit,
+);
+$jsonResult = json_encode($result);
+echo $jsonResult;
 
 ?>
