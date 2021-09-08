@@ -2,6 +2,8 @@
 
 namespace Lab1;
 
+include_once("Quarter.php");
+
 class SecondQuarter implements Quarter
 {
 

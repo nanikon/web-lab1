@@ -2,42 +2,62 @@
 
 namespace Lab1;
 
-function checkX($x) {
-    $X_MIN = -3;
-    $X_MAX = -5;
-    return isset($x) && is_numeric($x) && $x >= $X_MIN && $x <= $X_MAX;
-}
+use ErrorException;
+use InvalidArgumentException;
+use UnexpectedValueException;
 
-function checkY($y) {
-    return isset($y) && in_array($y, array(-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2));
+function __autoload($className) {
+    include($className . ".php");
 }
-function checkR($r) {
-    return isset($r) && in_array($r, array(1, 2, 3, 4, 5));
-}
-
-function checkForm($x, $y, $r) {
-    return checkX($x) & checkY($y) & checkR($r);
-}
-
-function checkHit($x, $y, $z) {
-    return true;
-}
+include_once("UserRequest.php");
+include_once("Area.php");
+include_once("HorizontalRhomb.php");
+include_once("VerticalRect.php");
+include_once("Circle.php");
+include_once("SecondQuarter.php");
+include_once("ThirdQuarter.php");
+include_once("FourthQuarter.php");
 
 @session_start();
-$x = (float) $_GET['x'];
-$y = (float) $_GET['y'];
-$r = (float) $_GET['r'];
-$isValid = checkForm($x, $y, $r);
-$isHit = $isValid && checkHit($x, $y, $x);
+if (!isset($_SESSION["jsonData"])) $_SESSION["jsonData"] = array();
+try {
+    $userRequest = new UserRequest();
+    $userRequest->validateData();
+    list ($x, $y, $r) = $userRequest->getData();
+    $area = new Area();
+    $area->addShape(new HorizontalRhomb(new SecondQuarter()));
+    $area->addShape(new VerticalRect(new ThirdQuarter()));
+    $area->addShape(new Circle(new FourthQuarter()));
+    $result = $area->checkArea($x, $y, $r) ? "Попали" : "Не попали";
 
-$result = array(
-    'x' => $x,
-    'y' => $y,
-    'r' => $r,
-    'isValid' => $isValid,
-    'isHit' => $isHit,
-);
-$jsonResult = json_encode($result);
-echo $jsonResult;
+    date_default_timezone_set($_GET["timezone"]);
+    $currentTime = date("H : i : s");
+    $executionTime = round(microtime(true) - $_SERVER["REQUEST_TIME_FLOAT"], 7);
+    array_push($_SESSION["jsonData"],
+    "\"x\":\"$x\"," .
+           "\"y\":\"$y\"," .
+           "\"r\":\"$r\"," .
+           "\"currentTime\":\"$currentTime\"," .
+           "\"executionTime\":\"$executionTime\"," .
+           "\"isHit\":\"$result\""
+    );
+} catch (ErrorException $e) {
+    http_response_code(418);
+    array_push($_SESSION["jsonData"],
+        "\"errorMessage\":\"" . $e->getMessage()
+    );
+} catch (InvalidArgumentException $e) {
+    http_response_code(415);
+    array_push($_SESSION["jsonData"],
+        "\"errorMessage\":\"" . $e->getMessage()
+    );
+} catch (UnexpectedValueException $e) {
+    http_response_code(418);
+    array_push($_SESSION["jsonData"],
+        "\"errorMessage\":\"" . $e->getMessage()
+    );
+} finally {
+    echo "{ \"data\": [{" . implode('}, {', $_SESSION["jsonData"]) . "}]}";
+}
 
-?>
+

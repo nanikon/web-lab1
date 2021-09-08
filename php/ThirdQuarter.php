@@ -2,6 +2,8 @@
 
 namespace Lab1;
 
+include_once("Quarter.php");
+
 class ThirdQuarter implements Quarter
 {
     public function checkPoint($x, $y)

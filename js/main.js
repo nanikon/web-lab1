@@ -48,7 +48,7 @@ $(document).ready(function() {
         const validatedY = validateY();
         const validatedR = validateR();
         return {isValid: validatedX.isValid & validatedY.isValid & validatedR.isValid,
-            value: validatedX.value + "&" + validatedY.value + "&" + validatedR.value}
+            data: validatedX.value + "&" + validatedY.value + "&" + validatedR.value}
     }
 
     $('#input-data').on("submit", function(event) {
@@ -58,14 +58,22 @@ $(document).ready(function() {
         $.ajax({
             url: 'php/main.php',
             method: 'GET',
-            data: validatedForm.data + '&timezone=' + new Date().getTimezoneOffset(),
+            data: validatedForm.data + '&timezone=' + Intl.DateTimeFormat().resolvedOptions().timeZone,
             dataType: 'json',
             beforeSend: function() {
                 $('#submit').attr('disabled', 'disabled');
             },
-            success: function(data) {
+            success: function(response) {
                 $('#submit').attr('disabled', false);
-                alert(data);
+                let data = response.data[0];
+                let newRow = '<tr>';
+                newRow += '<td>' + data.x + '</td>';
+                newRow += '<td>' + data.y + '</td>';
+                newRow += '<td>' + data.r + '</td>';
+                newRow += '<td>' + data.currentTime + '</td>';
+                newRow += '<td>' + data.executionTime + '</td>';
+                newRow += '<td>' + data.isHit + '</td>';
+                $('#result-table').append(newRow);
             }
         })
     })

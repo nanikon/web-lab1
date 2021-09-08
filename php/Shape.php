@@ -2,6 +2,8 @@
 
 namespace Lab1;
 
+include_once("Quarter.php");
+
 abstract class Shape
 {
     protected $quarter;
