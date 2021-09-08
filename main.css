@@ -42,7 +42,7 @@
 body {
     color: var(--basic-text-color);
     background-color: var(--basic-background-color);
-    font-size: 14px;
+    font-size: 16px;
     margin: 0;
 }
 header {
@@ -51,7 +51,7 @@ header {
     color: var(--basic-background-color);
     text-align: right;
     padding: 1%;
-    font-size: 18px;
+    font-size: 20px;
 }
 table {
     width: 90%;
@@ -110,8 +110,8 @@ input[type="button"].active {
     background-color: var(--pressed-button-color);
 }
 input#submit {
-    font-size: 15px;
-    width: 100px;
+    font-size: 18px;
+    width: 110px;
     padding: 8px;
     background-color: var(--basic-button-color);
     color: white;

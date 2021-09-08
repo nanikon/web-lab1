@@ -65,31 +65,38 @@ $(document).ready(function() {
             },
             success: function(response) {
                 $('#submit').attr('disabled', false);
-                let newTable = '<table>' +
-                    '<thead>' +
-                        '<tr>' +
-                            '<th>X</th>' +
-                            '<th>Y</th>' +
-                            '<th>R</th>' +
-                            '<th>Попали?</th>' +
-                            '<th>Текущее время</th>' +
-                            '<th>Время работы скрипта</th>' +
-                        '</tr>'+
-                    '</thead>' +
-                    '<tbody>';
-                for (let elem of response.data) {
-                    newTable += '<tr>' +
-                            '<td>' + elem.x + '</td>' +
-                            '<td>' + elem.y + '</td>' +
-                            '<td>' + elem.r + '</td>' +
-                            '<td>' + elem.isHit + '</td>' +
-                            '<td>' + elem.currentTime + '</td>' +
-                            '<td>' + elem.executionTime + '</td>' +
-                        '</tr>';
-                }
-                newTable += '</tbody></table>';
-                $('#result-table').html(newTable);
+                createTable(response.data);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                alert(textStatus + '\n' + errorThrown);
             }
         })
     })
+
+    function createTable(data) {
+        let newTable = '<table>' +
+            '<thead>' +
+            '<tr>' +
+            '<th>X</th>' +
+            '<th>Y</th>' +
+            '<th>R</th>' +
+            '<th>Попали?</th>' +
+            '<th>Текущее время</th>' +
+            '<th>Время работы скрипта</th>' +
+            '</tr>'+
+            '</thead>' +
+            '<tbody>';
+        for (let elem of data) {
+            newTable += '<tr>' +
+                '<td>' + elem.x + '</td>' +
+                '<td>' + elem.y + '</td>' +
+                '<td>' + elem.r + '</td>' +
+                '<td>' + elem.isHit + '</td>' +
+                '<td>' + elem.currentTime + '</td>' +
+                '<td>' + elem.executionTime + '</td>' +
+                '</tr>';
+        }
+        newTable += '</tbody></table>';
+        $('#result-table').html(newTable);
+    }
 })
