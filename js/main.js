@@ -65,15 +65,30 @@ $(document).ready(function() {
             },
             success: function(response) {
                 $('#submit').attr('disabled', false);
-                let data = response.data[0];
-                let newRow = '<tr>';
-                newRow += '<td>' + data.x + '</td>';
-                newRow += '<td>' + data.y + '</td>';
-                newRow += '<td>' + data.r + '</td>';
-                newRow += '<td>' + data.currentTime + '</td>';
-                newRow += '<td>' + data.executionTime + '</td>';
-                newRow += '<td>' + data.isHit + '</td>';
-                $('#result-table').append(newRow);
+                let newTable = '<table>' +
+                    '<thead>' +
+                        '<tr>' +
+                            '<th>X</th>' +
+                            '<th>Y</th>' +
+                            '<th>R</th>' +
+                            '<th>Попали?</th>' +
+                            '<th>Текущее время</th>' +
+                            '<th>Время работы скрипта</th>' +
+                        '</tr>'+
+                    '</thead>' +
+                    '<tbody>';
+                for (let elem of response.data) {
+                    newTable += '<tr>' +
+                            '<td>' + elem.x + '</td>' +
+                            '<td>' + elem.y + '</td>' +
+                            '<td>' + elem.r + '</td>' +
+                            '<td>' + elem.isHit + '</td>' +
+                            '<td>' + elem.currentTime + '</td>' +
+                            '<td>' + elem.executionTime + '</td>' +
+                        '</tr>';
+                }
+                newTable += '</tbody></table>';
+                $('#result-table').html(newTable);
             }
         })
     })

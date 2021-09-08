@@ -6,9 +6,6 @@ use ErrorException;
 use InvalidArgumentException;
 use UnexpectedValueException;
 
-function __autoload($className) {
-    include($className . ".php");
-}
 include_once("UserRequest.php");
 include_once("Area.php");
 include_once("HorizontalRhomb.php");
