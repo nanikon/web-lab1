@@ -32,7 +32,7 @@ $(document).ready(function() {
     function validateR() {
         let rCheckbox = $('#r-input :checkbox');
         if (rCheckbox.is(':checked')) {
-            return {isValid: true, value: rCheckbox.serialize()};
+            return {isValid: true, value: rCheckbox};
         } else {
             $('#r-input span').removeClass("hide");
             return {isValid: false, value: rCheckbox.serialize()};
@@ -44,7 +44,7 @@ $(document).ready(function() {
         const validatedY = validateY();
         const validatedR = validateR();
         return {isValid: validatedX.isValid & validatedY.isValid & validatedR.isValid,
-            data: validatedX.value + "&" + validatedY.value + "&" + validatedR.value}
+            data: validatedX.value + "&" + validatedY.value /*+"&" + validatedR.value*/}
     }
 
     $('#input-data').on("submit", function(event) {
@@ -53,26 +53,29 @@ $(document).ready(function() {
         $('#y-input span').addClass("hide");
         $('#r-input span').addClass("hide");
         const validatedForm = validateForm();
-        if (!validatedForm.isValid) return;
-        $.ajax({
-            url: 'php/main.php',
-            method: 'GET',
-            data: validatedForm.data + '&timezone=' + Intl.DateTimeFormat().resolvedOptions().timeZone,
-            dataType: 'json',
-            beforeSend: function() {
-                $('#submit').attr('disabled', 'disabled');
-            },
-            success: function(response) {
-                $('#submit').attr('disabled', false);
-                createTable(response.data);
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                alert(textStatus + '\n' + errorThrown);
-            }
+        $('#r-input :checked').each(function(i, elem) {
+            let userData = validatedForm.data + '&r=' + $(elem).val() +'&timezone=' + Intl.DateTimeFormat().resolvedOptions().timeZone;
+            if (!validatedForm.isValid) return;
+            $.ajax({
+                url: 'php/main.php',
+                method: 'GET',
+                data: userData,
+                dataType: 'json',
+                beforeSend: function() {
+                    $('#submit').attr('disabled', 'disabled');
+                },
+                success: function(response) {
+                    $('#submit').attr('disabled', false);
+                    createTable(response.answer);
+                },
+                error: function(jqXHR, textStatus, errorThrown) {
+                    alert(textStatus + '\n' + errorThrown);
+                }
+            })
         })
     })
 
-    function createTable(data) {
+    function createTable(userData) {
         let newTable = '<table>' +
             '<thead>' +
             '<tr>' +
@@ -81,11 +84,11 @@ $(document).ready(function() {
             '<th>R</th>' +
             '<th>Попали?</th>' +
             '<th>Текущее время</th>' +
-            '<th>Время работы скрипта</th>' +
+            '<th>Время работы скрипта (в микросек.)</th>' +
             '</tr>'+
             '</thead>' +
             '<tbody>';
-        for (let elem of data) {
+        for (let elem of userData) {
             newTable += '<tr>' +
                 '<td>' + elem.x + '</td>' +
                 '<td>' + elem.y + '</td>' +

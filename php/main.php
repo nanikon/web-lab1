@@ -54,7 +54,8 @@ try {
         "\"errorMessage\":\"" . $e->getMessage()
     );
 } finally {
-    echo "{ \"data\": [{" . implode('}, {', $_SESSION["jsonData"]) . "}]}";
+    echo "{ \"answer\": [{" . implode('}, {', $_SESSION["jsonData"]) . "}]}";
+    //echo "{ \"get\": [{" . implode('}, {', $_GET) . "}]}";
 }
 
 
