@@ -131,6 +131,13 @@
         input#submit:hover {
             background-color: var(--pressed-button-color);
         }
+        span {
+            font-size: 11px;
+            color: red;
+        }
+        span.hide {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -152,7 +159,8 @@
                 <form id="input-data" method="get">
                     <p id="x-input">
                         Координата точки X: <br>
-                        <label><input type="text" name="x"></label>
+                        <label><input type="text" name="x"></label> <br>
+                        <span class="hide">Х должна быть числом между [-3, 5]</span>
                     </p>
                     <p id="y-input">
                         Координата точки Y: <br>
@@ -164,7 +172,8 @@
                         <label><input type="button" name="y" value="0.5"></label>
                         <label><input type="button" name="y" value="1"></label>
                         <label><input type="button" name="y" value="1.5"></label>
-                        <label><input type="button" name="y" value="2"></label>
+                        <label><input type="button" name="y" value="2"></label> <br>
+                        <span class="hide">Y должно быть выбрано одно только одно и лишь из представленных здесь</span>
                     </p>
                     <p id="r-input">
                         Радиус области R: <br>
@@ -172,7 +181,8 @@
                         <label><input type="checkbox" name="r" value="2"> 2 </label> <br>
                         <label><input type="checkbox" name="r" value="3"> 3 </label> <br>
                         <label><input type="checkbox" name="r" value="4"> 4 </label> <br>
-                        <label><input type="checkbox" name="r" value="5"> 5 </label>
+                        <label><input type="checkbox" name="r" value="5"> 5 </label> <br>
+                        <span class="hide">R должно быть выбрано только одно и лишь из представленных здесь</span>
                     </p>
                     <p><input type="submit" value="Отправить" id="submit"></p>
                 </form>

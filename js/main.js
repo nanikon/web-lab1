@@ -9,11 +9,7 @@ $(document).ready(function() {
         let xVal = $('input[name="x"]').val().replace(',', '.');
         let isValid = isNumeric(xVal) && xVal >= X_MIN && xVal <= X_MAX;
         if (!isValid) {
-            if (isNumeric(xVal)) {
-                alert("Введеная координата х не соответствет промежутку [-3; 5]"); //TODO испавить alert-ы на
-            } else {
-                alert("Введеная координата х не является числом");
-            }
+            $('#x-input span').removeClass("hide");
         }
         return {isValid: isValid, value: "x=" + xVal};
     }
@@ -28,7 +24,7 @@ $(document).ready(function() {
             }
         })
         if (!isValid) {
-            alert("Не выбрана координата y");
+            $('#y-input span').removeClass("hide");
         }
         return {isValid: isValid, value: "y=" + yVal};
     }
@@ -38,7 +34,7 @@ $(document).ready(function() {
         if (rCheckbox.is(':checked')) {
             return {isValid: true, value: rCheckbox.serialize()};
         } else {
-            alert("Не выбран радиус области");
+            $('#r-input span').removeClass("hide");
             return {isValid: false, value: rCheckbox.serialize()};
         }
     }
@@ -53,6 +49,9 @@ $(document).ready(function() {
 
     $('#input-data').on("submit", function(event) {
         event.preventDefault();
+        $('#x-input span').addClass("hide");
+        $('#y-input span').addClass("hide");
+        $('#r-input span').addClass("hide");
         const validatedForm = validateForm();
         if (!validatedForm.isValid) return;
         $.ajax({
