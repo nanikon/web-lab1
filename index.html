@@ -10,28 +10,28 @@
             font-style: normal;
             font-weight: normal;
             src: local('Anonymous Pro'),
-            url('/fonts/AnonymousPro-Regular.woff') format('woff');
+            url('fonts/AnonymousPro-Regular.woff') format('woff');
         }
         @font-face {
             font-family: 'Anonymous Pro';
             font-style: normal;
             font-weight: bold;
             src: local('Anonymous Pro'),
-            url('/fonts/AnonymousPro-Bold.woff') format('woff');
+            url('fonts/AnonymousPro-Bold.woff') format('woff');
         }
         @font-face {
             font-family: 'Anonymous Pro';
             font-style: italic;
             font-weight: bold;
             src: local('Anonymous Pro'),
-            url('/fonts/AnonymousPro-BoldItalic.woff') format('woff');
+            url('fonts/AnonymousPro-BoldItalic.woff') format('woff');
         }
         @font-face {
             font-family: 'Anonymous Pro';
             font-style: italic;
             font-weight: normal;
             src: local('Anonymous Pro'),
-            url('/fonts/AnonymousPro-Italic.woff') format('woff');
+            url('fonts/AnonymousPro-Italic.woff') format('woff');
         }
 
         :root {
@@ -177,11 +177,11 @@
                     </p>
                     <p id="r-input">
                         Радиус области R: <br>
-                        <label><input type="checkbox" name="r" value="1"> 1 </label> <br>
-                        <label><input type="checkbox" name="r" value="2"> 2 </label> <br>
-                        <label><input type="checkbox" name="r" value="3"> 3 </label> <br>
-                        <label><input type="checkbox" name="r" value="4"> 4 </label> <br>
-                        <label><input type="checkbox" name="r" value="5"> 5 </label> <br>
+                        <label><input type="checkbox" name="r[]" value="1"> 1 </label> <br>
+                        <label><input type="checkbox" name="r[]" value="2"> 2 </label> <br>
+                        <label><input type="checkbox" name="r[]" value="3"> 3 </label> <br>
+                        <label><input type="checkbox" name="r[]" value="4"> 4 </label> <br>
+                        <label><input type="checkbox" name="r[]" value="5"> 5 </label> <br>
                         <span class="hide">R должно быть выбрано только одно и лишь из представленных здесь</span>
                     </p>
                     <p><input type="submit" value="Отправить" id="submit"></p>

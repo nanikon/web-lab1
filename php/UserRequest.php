@@ -17,11 +17,11 @@ class UserRequest
     private $Y_ARRAY = array(-2, -1.5, -1, -0.5, 0, 0.5, 1, 1.5, 2);
     private $R_ARRAY = array(1, 2, 3, 4, 5);
 
-    public function __construct()
+    public function __construct($i)
     {
         $this->x = (float) $_GET['x'];
         $this->y = (float) $_GET['y'];
-        $this->r = (float) $_GET['r'];
+        $this->r = (float) $_GET['r'][$i];
     }
 
     public function getData() { return array($this->x, $this->y, $this->r); }
