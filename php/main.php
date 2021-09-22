@@ -57,7 +57,6 @@ try {
     );
 } finally {
     echo "{ \"answer\": [{" . implode('}, {', $_SESSION["jsonData"]) . "}]}";
-    //echo "{ \"get\": [{" . implode('}, {', $_GET) . "}]}";
 }
 
 

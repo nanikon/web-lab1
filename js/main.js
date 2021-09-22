@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(function() {
     function isNumeric(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
@@ -32,7 +32,7 @@ $(document).ready(function() {
     function validateR() {
         let rCheckbox = $('#r-input :checkbox');
         if (rCheckbox.is(':checked')) {
-            return {isValid: true, value: rCheckbox};
+            return {isValid: true, value: rCheckbox.serialize()};
         } else {
             $('#r-input span').removeClass("hide");
             return {isValid: false, value: rCheckbox.serialize()};
@@ -44,7 +44,7 @@ $(document).ready(function() {
         const validatedY = validateY();
         const validatedR = validateR();
         return {isValid: validatedX.isValid & validatedY.isValid & validatedR.isValid,
-            data: validatedX.value + "&" + validatedY.value /*+"&" + validatedR.value*/}
+            data: validatedX.value + "&" + validatedY.value + "&" + validatedR.value}
     }
 
     $('#input-data').on("submit", function(event) {
@@ -53,50 +53,47 @@ $(document).ready(function() {
         $('#y-input span').addClass("hide");
         $('#r-input span').addClass("hide");
         const validatedForm = validateForm();
-        $('#r-input :checked').each(function(i, elem) {
-            let userData = validatedForm.data + '&r=' + $(elem).val() +'&timezone=' + Intl.DateTimeFormat().resolvedOptions().timeZone;
-            if (!validatedForm.isValid) return;
-            $.ajax({
-                url: 'php/main.php',
-                method: 'GET',
-                data: userData,
-                dataType: 'json',
-                beforeSend: function() {
-                    $('#submit').attr('disabled', 'disabled');
-                },
-                success: function(response) {
-                    $('#submit').attr('disabled', false);
-                    createTable(response.answer);
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert(textStatus + '\n' + errorThrown);
-                }
-            })
+        if (!validatedForm.isValid) return;
+        $.ajax({
+            url: 'php/main.php',
+            method: 'GET',
+            data: validatedForm.data +'&timezone=' + Intl.DateTimeFormat().resolvedOptions().timeZone,
+            dataType: 'json',
+            beforeSend: function() {
+                $('#submit').attr('disabled', 'disabled');
+            },
+            success: function(response) {
+                $('#submit').attr('disabled', false);
+                createTable(response.answer);
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                $('#result-table').append(`<h3>При обработке запроса произошла ошибка <br> ${textStatus} <br> ${errorThrown}</h3>`);
+            }
         })
     })
 
     function createTable(userData) {
-        let newTable = '<table>' +
-            '<thead>' +
-            '<tr>' +
-            '<th>X</th>' +
-            '<th>Y</th>' +
-            '<th>R</th>' +
-            '<th>Попали?</th>' +
-            '<th>Текущее время</th>' +
-            '<th>Время работы скрипта (в микросек.)</th>' +
-            '</tr>'+
-            '</thead>' +
-            '<tbody>';
+        let newTable = `<table>
+        <thead>
+            <tr>
+                <th>X</th>
+                <th>Y</th>
+                <th>R</th>
+                <th>Попали?</th>
+                <th>Текущее время</th>
+                <th>Время работы скрипта (в микросек.)</th>
+            </tr>
+        </thead>
+        <tbody>`;
         for (let elem of userData) {
-            newTable += '<tr>' +
-                '<td>' + elem.x + '</td>' +
-                '<td>' + elem.y + '</td>' +
-                '<td>' + elem.r + '</td>' +
-                '<td>' + elem.isHit + '</td>' +
-                '<td>' + elem.currentTime + '</td>' +
-                '<td>' + elem.executionTime + '</td>' +
-                '</tr>';
+            newTable += `<tr>
+                <td>${elem.x}</td>
+                <td>${elem.y}</td>
+                <td>${elem.r}</td>
+                <td>${elem.isHit}</td>
+                <td>${elem.currentTime}</td>
+                <td>${elem.executionTime}</td>
+            </tr>`;
         }
         newTable += '</tbody></table>';
         $('#result-table').html(newTable);
