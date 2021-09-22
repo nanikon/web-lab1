@@ -56,7 +56,7 @@ try {
         "\"errorMessage\":\"" . $e->getMessage()
     );
 } finally {
-    echo "{ \"answer\": [{" . implode('}, {', $_SESSION["jsonData"]) . "}]}";
+    include "sendData.php";
 }
 
 
