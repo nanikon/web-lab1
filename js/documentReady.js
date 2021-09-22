@@ -4,7 +4,9 @@ $(function() {
         method: 'GET',
         dataType: 'json',
         success: function(response) {
-            createTable(response.answer);
+            if (typeof response.answer[0].x !== "undefined") {
+                createTable(response.answer);
+            }
         }
     })
 
