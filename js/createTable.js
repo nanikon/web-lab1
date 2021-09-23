@@ -12,7 +12,8 @@ function createTable(userData) {
         </thead>
         <tbody>`;
     for (let elem of userData) {
-        newTable += `<tr>
+        if (typeof elem.x !== "undefined") {
+            newTable += `<tr>
                 <td>${elem.x}</td>
                 <td>${elem.y}</td>
                 <td>${elem.r}</td>
@@ -20,6 +21,7 @@ function createTable(userData) {
                 <td>${elem.currentTime}</td>
                 <td>${elem.executionTime}</td>
             </tr>`;
+        }
     }
     newTable += '</tbody></table>';
     $('#result-table').html(newTable);

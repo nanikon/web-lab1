@@ -39,24 +39,17 @@ try {
             "\"executionTime\":\"$executionTime\"," .
             "\"isHit\":\"$result\""
         );
+        include "sendData.php";
     }
 } catch (ErrorException $e) {
     http_response_code(418);
-    array_push($_SESSION["jsonData"],
-        "\"errorMessage\":\"" . $e->getMessage()
-    );
+    echo "{ \"errorMessage\":\"" . $e->getMessage() . "\"}";
 } catch (InvalidArgumentException $e) {
     http_response_code(415);
-    array_push($_SESSION["jsonData"],
-        "\"errorMessage\":\"" . $e->getMessage()
-    );
+    echo "{ \"errorMessage\":\"" . $e->getMessage() . "\"}";
 } catch (UnexpectedValueException $e) {
     http_response_code(418);
-    array_push($_SESSION["jsonData"],
-        "\"errorMessage\":\"" . $e->getMessage()
-    );
-} finally {
-    include "sendData.php";
+    echo "{ \"errorMessage\":\"" . $e->getMessage() . "\"}";
 }
 
 
