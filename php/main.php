@@ -17,6 +17,7 @@ include_once("FourthQuarter.php");
 
 @session_start();
 if (!isset($_SESSION["jsonData"])) $_SESSION["jsonData"] = array();
+if (!isset($_SESSION["table"])) $_SESSION["table"] = "";
 try {
     for ($i = 0; $i < count($_GET['r']); $i++) {
         $userRequest = new UserRequest($i);
@@ -39,6 +40,12 @@ try {
             "\"executionTime\":\"$executionTime\"," .
             "\"isHit\":\"$result\""
         );
+        $_SESSION["table"] .= "<tr><td>". $x ."</td><td>"
+            . $y ."</td><td>"
+            . $r ."</td><td>"
+            . $currentTime . "</td><td>"
+            . $executionTime . "</td><td>"
+            . $result ."</td></tr>";
         include "sendData.php";
     }
 } catch (ErrorException $e) {

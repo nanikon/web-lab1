@@ -11,7 +11,7 @@ function createTable(userData) {
             </tr>
         </thead>
         <tbody>`;
-    for (let elem of userData) {
+    for (const elem of userData) {
         if (typeof elem.x !== "undefined") {
             newTable += `<tr>
                 <td>${elem.x}</td>
